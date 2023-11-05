@@ -1,0 +1,210 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "BraTS_PPN",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [
+                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "16", "--batch_size", "16", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--show_progress", "True", "--sampleType", "PPN"
+            ]
+        },
+        {
+            "name": "BraTS_DPS",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [
+                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "16", "--batch_size", "16", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--show_progress", "True", "--sampleType", "DPS"
+            ]
+        },
+        {
+            "name": "fastbrain_real",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_brain/model300000.pt", "--testset_path", "evaluations/fastMRI_brain/brain_real_testset.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "64", "--batch_size", "64", "--timestep_respacing", "ddim500", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "real"
+            ]
+            // --image_size 320 --channel_mult 1,2,4,4,6,6 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.2 --diffusion_steps 1000 --class_cond False
+        },
+        {
+            "name": "fastbrain_real_4_knee",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_brain/model300000.pt", "--testset_path", "evaluations/fastMRI_Knee/knee_real_testset.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "64", "--batch_size", "64", "--timestep_respacing", "ddim500", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "real"
+            ]
+            // --image_size 320 --channel_mult 1,2,4,4,6,6 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.2 --diffusion_steps 1000 --class_cond False
+        },
+        {
+            "name": "fastbrain_cpx_for_mc",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_brain/model300000.pt", "--testset_path", "evaluations/fastMRI_brain/complex_for_mc_test2.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "3", "--batch_size", "3", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "complex"
+            ]
+            // --image_size 320 --channel_mult 1,2,4,4,6,6 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.2 --diffusion_steps 1000 --class_cond False
+        },
+        {
+            "name": "fastbrain_mc",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_brain/model300000.pt", "--testset_path", "evaluations/fastMRI_brain/mc_test.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "1", "--batch_size", "1", "--timestep_respacing", "ddim1000", "--acceleration", "2", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "multicoil_b"
+            ]
+            // --image_size 320 --channel_mult 1,2,4,4,6,6 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.2 --diffusion_steps 1000 --class_cond False
+        }
+        ,
+        {
+            "name": "knee_real",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model2150000.pt", "--testset_path", "evaluations/fastMRI_Knee/knee_real_testset.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "True",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "64", "--batch_size", "32", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "real"
+            ]
+        },
+        {
+            "name": "knee_real_for_brain",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model2150000.pt", "--testset_path", "evaluations/fastMRI_brain/brain_real_testset.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "True",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "64", "--batch_size", "64", "--timestep_respacing", "ddim500", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "real"
+            ]
+        },
+        // {
+        //     "name": "knee_real2",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "module": "scripts.image_sample",
+        //     "justMyCode": true,
+        //     "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model2150000.pt", "--testset_path", "evaluations/fastMRI_Knee/realsamples.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5,5", "--use_ddim", "True", "--num_samples", "16", "--batch_size", "16", "--timestep_respacing", "ddim100", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "real"
+
+        //     // --image_size 320 --channel_mult 1,2,4,4,5,5 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.1 --diffusion_steps 1000 --class_cond False --log_interval 100 --keep_checkpoint_num 50 --snapshot_num 9 --save_interval 10000 --batch_size 16
+        //     ]
+        // },
+        {
+            "name": "knee_complex",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model2150000.pt", "--testset_path", "evaluations/fastMRI_Knee/knee_cpx_testset.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "True",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "16", "--batch_size", "16", "--timestep_respacing", "ddim500", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "complex"
+            ]
+        },
+        // {
+        //     "name": "knee_multicoil",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "module": "scripts.image_sample",
+        //     "justMyCode": true,
+        //     "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model580000.pt", "--testset_path", "evaluations/fastMRI_Knee/mc_test.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5,5", "--use_ddim", "True", "--num_samples", "1", "--batch_size", "1", "--timestep_respacing", "ddim100", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "multicoil_0.05",
+        //     ]
+
+        //     // --channel_mult 1,2,4,4,5,5 --attention_resolutions 40,20 --num_channels 32 --num_heads 4 --num_res_blocks 3 --use_fp16 False --use_scale_shift_norm True --noise_schedule cosine --learn_sigma True --dropout 0.1 --diffusion_steps 1000 --class_cond False
+        // },
+        {
+            "name": "knee_multicoil",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model2150000.pt", "--testset_path", "evaluations/fastMRI_Knee/mc_test.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "True",  "--channel_mult", "1,2,4,4,6,6", "--use_ddim", "True", "--num_samples", "1", "--batch_size", "15", "--timestep_respacing", "ddim500", "--acceleration", "2", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "multicoil_a"
+            ]
+        },
+        {
+            "name": "knee_multicoil2",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model550000.pt", "--testset_path", "evaluations/fastMRI_Knee/mc_test_knee2.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5,5", "--use_ddim", "True", "--num_samples", "1", "--batch_size", "15", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "multicoil_0.05",
+            ]
+        },
+        {
+            "name": "knee_mc_data_argumentation",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [ "--work_dir", "working/sampling", "--model_path", "evaluations/fastMRI_Knee/model320000.pt", "--testset_path", "evaluations/fastMRI_Knee/multicoilsamples.npz", "--attention_resolutions", "40,20", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "320", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3",  "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5,5", "--use_ddim", "True", "--num_samples", "1", "--batch_size", "1", "--timestep_respacing", "ddim100", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "multicoil_0.05"
+            ]
+        },
+        {
+            "name": "KneeTrain",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_train",
+            "justMyCode": true,
+            "args": [
+                "--work_dir", "/Users/John/workspace/DMs_Medical/PPN_new/working/training", "--dataset_name", "fastmri_knee", "--lr", "1e-4", "--image_size", "320", "--channel_mult", "1,2,2,4,4,4", "--attention_resolutions", "20,10", "--num_channels", "32", "--num_heads", "4", "--num_res_blocks", "2", "--resblock_updown", "True", "--use_fp16", "False", "--use_scale_shift_norm", "True", "--noise_schedule", "cosine", "--learn_sigma", "True", "--diffusion_steps", "10", "--class_cond", "False", "--keep_checkpoint_num", "5", "--snapshot_num", "3", "--log_interval", "2", "--save_interval", "2", "--batch_size", "2"
+            ]
+        },
+        {
+            "name": "BraTS_Train",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_train",
+            "justMyCode": true,
+            "args": ["--work_dir", "/clusterdata/uqwjian7/PPN_new/working/trainBTS1", "--dataset_name", "brats", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--attention_resolutions", "30", "--diffusion_steps", "1000", "--lr", "2e-4", "--log_interval", "100", "--keep_checkpoint_num", "20", "--snapshot_num", "9", "--save_interval", "10000", "--batch_size", "16", "--use_fp16", "False", "--resume_checkpoint", "/clusterdata/uqwjian7/PPN_new/working/trainBTS1"
+            ]
+        },
+        {
+            "name": "Cpx_Train",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_train",
+            "justMyCode": true,
+            "args": ["--work_dir", "/home/uqwjian7/workspace/ppn_current/working/trainCPX", "--dataset_name", "ms_tia_brain", "--lr", "1e-4", "--image_size", "256", "--channel_mult", "1,2,2,4,4", "--attention_resolutions", "32", "--num_channels", "32", "--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False", "--use_scale_shift_norm", "True", "--noise_schedule", "cosine", "--learn_sigma", "True", "--dropout", "0.0", "--diffusion_steps", "1000", "--class_cond", "False", "--log_interval", "100", "--keep_checkpoint_num", "20", "--snapshot_num", "9", "--save_interval", "10000", "--batch_size", "16"
+            ]
+        },
+        {
+            "name": "Cpx2ch_Train",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_train",
+            "justMyCode": true,
+            "args": ["--work_dir", "/home/uqwjian7/workspace/ppn_current/working/trainCPX", "--dataset_name", "ms_tia_brain_ch2", "--lr", "1e-4", "--image_size", "256", "--image_channel", "2", "--channel_mult", "1,2,4,4,5", "--attention_resolutions", "32", "--num_channels", "32", "--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False", "--use_scale_shift_norm", "True", "--noise_schedule", "cosine", "--learn_sigma", "True", "--dropout", "0.0", "--diffusion_steps", "1000", "--class_cond", "False", "--log_interval", "100", "--keep_checkpoint_num", "20", "--snapshot_num", "9", "--save_interval", "10000", "--batch_size", "16",
+            ]
+        },
+        {
+            "name": "Cpx_Sample",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": ["--work_dir", "working/sampling", "--model_path", "evaluations/brain_cpx/model510000.pt", "--testset_path", "evaluations/brain_cpx/testset_brain_cpx.npz", "--attention_resolutions", "32", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "256", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5", "--use_ddim", "True", "--num_samples", "8", "--batch_size", "8", "--timestep_respacing", "ddim1000", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "complex"
+            ],
+        },
+        {
+            "name": "SuperRes_DPS",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": ["--work_dir", "working/sampling", "--model_path", "evaluations/brain_cpx/model480000.pt", "--testset_path", "evaluations/brain_cpx_superres/superRes.npz", "--attention_resolutions", "32", "--diffusion_steps", "1000", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "256", "--num_channels", "32","--num_heads", "4", "--num_res_blocks", "3", "--resblock_updown", "True", "--use_fp16", "False",  "--channel_mult", "1,2,4,4,5", "--use_ddim", "True", "--num_samples", "4", "--batch_size", "4", "--timestep_respacing", "ddim200", "--acceleration", "4", "--use_scale_shift_norm", "True", "--dropout", "0.0", "--show_progress", "True", "--sampleType", "DPS"
+            ],
+        },
+        {
+            "name": "BraTS_SuperRes",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.image_sample",
+            "justMyCode": true,
+            "args": [
+                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/superRes240.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "16", "--batch_size", "16", "--timestep_respacing", "ddim10", "--acceleration", "4", "--show_progress", "True", "--sampleType", "real"
+            ]
+        }
+    ]
+}
