@@ -67,9 +67,9 @@ class PPN_Diffusion(SpacedDiffusion):
         
         _indices = list(range(self.sample_steps))[::-1]
         indices = tqdm(_indices) if progress else _indices
-        # Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
-        # x = self.q_sample(from_space(self.knowns).real, Ts) 
-        x = th.randn_like(self.knowns.real, device=device)
+        Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
+        x = self.q_sample(from_space(self.knowns).real, Ts) 
+        # x = th.randn_like(self.knowns.real, device=device)
         for i in indices:  
             x = ddnm(model, x, i) 
         return x
@@ -79,8 +79,9 @@ class PPN_Diffusion(SpacedDiffusion):
         
         _indices = list(range(self.sample_steps))[::-1]
         indices = tqdm(_indices) if progress else _indices
+        # x = th.randn_like(self.knowns.real, device=device)
         Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
-        x = th.randn_like(self.knowns.real, device=device)
+        x = self.q_sample(from_space(self.knowns).real, Ts) 
         for i in indices:  
             ts = th.tensor([i]  * x.shape[0], device=x.device)
             
@@ -99,7 +100,9 @@ class PPN_Diffusion(SpacedDiffusion):
     def _loop_dps(self, model, progress=False, device="cpu"):
         _indices = list(range(self.sample_steps))[::-1]
         indices = tqdm(_indices) if progress else _indices
-        x = th.randn_like(self.knowns.real, device=device)
+        # x = th.randn_like(self.knowns.real, device=device)
+        Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
+        x = self.q_sample(from_space(self.knowns).real, Ts) 
         for i in indices:
             ts = th.tensor([i]  * x.shape[0], device=x.device)
 
@@ -111,7 +114,7 @@ class PPN_Diffusion(SpacedDiffusion):
             norm = th.linalg.norm(diff)  
             norm_grad = th.autograd.grad(outputs=norm, inputs=x)[0] # \nabla_x |y - F * x_0|^2
             # fix the gradient
-            x = out['sample'] - norm_grad * 0.1  # x_t - grad * hyperparam
+            x = out['sample'] - norm_grad * 10  # x_t - grad * hyperparam
 
             x.detach_()
         return x

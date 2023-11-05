@@ -48,7 +48,7 @@ def main():
     logger.log("creating model and diffusion...")
     model, diffusion = load_model(args, device)
 
-    if args.sampleType != "PPN":
+    if args.num_timesteps <= 0:
         args.num_timesteps=diffusion.num_timesteps
 
     logger.log("sampling...")
@@ -65,11 +65,9 @@ def main():
     all_samples = th.cat(all_samples, dim=0)  #np.concatenate(all_samples, axis=0)
     
     logger.log_snapshot(try_rss_complex(all_samples))
-    # used for display
-    if args.sampleType == "PPN":
-        args.num_timesteps = "%d_%d" % (args.num_timesteps, diffusion.num_timesteps)
-    else:
-        args.num_timesteps = "%d" % (args.num_timesteps)
+    # used for display        
+    args.num_timesteps = "%d_%d" % (args.num_timesteps, diffusion.num_timesteps)
+    
     ppn_sample_utils.report_metrics_and_save(args, all_imgs, all_samples, all_sens) # psnr and ssim
 
 
