@@ -45,7 +45,7 @@ def main():
         args.mcType = args.sampleType.split("_")[1]
         args.sampleType="multicoil"
 
-    assert args.sampleType in ['DPS', 'PPN', 'DDPM', 'DDIM', 'real', 'complex', 'cpx_superres', 'real_superres', 'multicoil'], "Sample type is not correct"
+    assert args.sampleType in ['PPN', 'DPS', "DDNM", "SONG"], "Sample type is not correct"
 
     dist_util.setup_dist()
     logger.configure(args.work_dir, ["stdout", "tensorboard"])
@@ -56,7 +56,7 @@ def main():
     logger.log("sampling...")
     all_samples = []
     all_imgs, all_knowns, all_sens, isComplex, mask = ppn_sample_utils.get_testset_and_mask(args)
-    ppn_loop = partial(diffusion.ppn_loop, model=model, isComplex=isComplex, mask=mask, device=device, 
+    ppn_loop = partial(diffusion.run, model=model, isComplex=isComplex, mask=mask, device=device, 
                        sampleType=args.sampleType, mcType=args.mcType, progress=args.show_progress, mixpercent=mixpercent)
 
     for knowns, sens in ppn_sample_utils.iter_testset(args, all_knowns, all_sens):
