@@ -4,7 +4,7 @@ This is the codebase for [Fast Controllable Diffusion Models for MRI Undersampli
 
 This repository is based on [openai/improved-diffusion](https://github.com/openai/improved-diffusion), with modifications for classifier conditioning and architecture improvements.
 
-# Download pre-trained models
+# Download pre-trained models   
 
 We have released checkpoints for the main models in the paper. Before using these models, please review the corresponding [model card](model-card.md) to understand the intended use and limitations of these models.
 
