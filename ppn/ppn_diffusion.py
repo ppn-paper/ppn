@@ -31,15 +31,14 @@ class PPN_Diffusion(SpacedDiffusion):
             x_space = merge_known_with_mask(x_space, self.knowns, self.mask, coeff=lmd)
             return from_space(x_space).real
 
-        def ppn(model, x_real, t): # 0: x_0, 1: x_t
-            ts = th.tensor([t]  * x_real.shape[0], device=x_real.device)
-            x_0 = self.p_mean_variance(model, x_real, ts)["pred_xstart"] # predictor
+        def ppn(model, x_cur, t): # 0: x_0, 1: x_t
+            ts = th.tensor([t]  * x_cur.shape[0], device=x_cur.device)
+            x_0 = self.p_mean_variance(model, x_cur, ts)["pred_xstart"] # predictor
             x_0_hat = projector(x_0, t)
-            
+
             # ppn
-            alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_real.shape)
-            x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
-            return x_real_pre
+            alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_cur.shape)
+            return th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
 
         _indices = list(range(self.sample_steps))[::-1]
         # _indices = list(range(self.num_timesteps))[::-1]
@@ -52,19 +51,46 @@ class PPN_Diffusion(SpacedDiffusion):
         return x
     
     @th.no_grad()
-    def _loop_ddnm(self, model, denoise_fn, progress=False, device="cpu"):
+    def _loop_ddnm(self, model, progress=False, device="cpu"):
+
+        def projector(x_real, t=0,lmd=1.0):
+            x_space = to_space(x_real)
+            x_space = merge_known_with_mask(x_space, self.knowns, self.mask, coeff=lmd)
+            return from_space(x_space).real
+
+        def ddnm(model, x_cur, t): # 0: x_0, 1: x_t
+            ts = th.tensor([t]  * x_cur.shape[0], device=x_cur.device)
+            
+            out = self.p_mean_variance(model, x_cur, ts, denoised_fn=projector) # predictor
+            
+            return out["mean"] + th.exp(0.5 * out["log_variance"]) * th.randn_like(x_cur)
+        
         _indices = list(range(self.sample_steps))[::-1]
-        # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
-        Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
-        x = self.q_sample(from_space(self.knowns).real, Ts) 
-        # x = th.randn_like(self.knowns.real, device=device)
+        # Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
+        # x = self.q_sample(from_space(self.knowns).real, Ts) 
+        x = th.randn_like(self.knowns.real, device=device)
         for i in indices:  
-            x = denoise_fn(model, x, i) 
+            x = ddnm(model, x, i) 
         return x
     
     @th.no_grad()
-    def _loop_song(self, model, denoise_fn, progress=False, device="cpu"):
+    def _loop_song(self, model, progress=False, device="cpu"):
+        def projector(x_real, t=0,lmd=1.0):
+            x_space = to_space(x_real)
+            x_space = merge_known_with_mask(x_space, self.knowns, self.mask, coeff=lmd)
+            return from_space(x_space).real
+
+        def song(model, x_real, t): # 0: x_0, 1: x_t
+            ts = th.tensor([t]  * x_real.shape[0], device=x_real.device)
+            x_0 = self.p_mean_variance(model, x_real, ts)["pred_xstart"] # predictor
+            x_0_hat = projector(x_0, t)
+            
+            # ppn
+            alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_real.shape)
+            x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
+            return x_real_pre
+        
         _indices = list(range(self.sample_steps))[::-1]
         # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
@@ -72,7 +98,7 @@ class PPN_Diffusion(SpacedDiffusion):
         x = self.q_sample(from_space(self.knowns).real, Ts) 
         # x = th.randn_like(self.knowns.real, device=device)
         for i in indices:  
-            x = denoise_fn(model, x, i) 
+            x = song(model, x, i) 
         return x
     
 

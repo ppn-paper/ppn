@@ -2,7 +2,7 @@ model_brats="--model_path evaluations/BraTS/model_2.02m.pt --testset_path evalua
 
 sampleNum=4
 
-cmd_brats="python -m scripts.image_sample --work_dir working/sampling $model_brats --num_samples $sampleNum --batch_size 32 --timestep_respacing ddim1000 --num_timesteps 55 --acceleration 4 --show_progress True --sampleType PPN"
+cmd_brats="python -m scripts.image_sample --work_dir working/sampling $model_brats --num_samples $sampleNum --batch_size 32 --timestep_respacing ddim1000 --num_timesteps 50 --acceleration 4 --show_progress True --sampleType PPN"
 
 exec_cmd() {
     echo "--------------------------------------------"
