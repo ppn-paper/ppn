@@ -3,25 +3,21 @@ from guided_diffusion.gaussian_diffusion import _extract_into_tensor
 from .ppn_sample_utils import *
 from tqdm.auto import tqdm
 from functools import partial
-from skimage.restoration import denoise_tv_chambolle
-from einops import rearrange
 
 class PPN_Diffusion(SpacedDiffusion):
     
     def __init__(self, use_timesteps, **kwargs):
         super().__init__(use_timesteps, **kwargs)
     
-    def run(self, knowns, sens, mask, model, isComplex=False,
-                device="cpu", sampleType="PPN", mcType='a', progress=False, mixpercent=0.0):
-        
-        print("Sampling type: ", sampleType)
-        self.mcType = mcType
-        self.coilNum = 1 if mcType=='a' else knowns.shape[1]
+    def run(self, knowns, mask, model, sample_steps=-1,
+            device="cpu", sampleType="PPN", progress=False):
+       
         self.mask = mask.to(device)
         self.knowns = knowns.to(device)
-        self.sens = sens.to(device) if sens is not None else None
-        self.mixstepsize = int(self.num_timesteps * mixpercent) 
+        self.sample_steps = sample_steps if sample_steps>0 else self.num_timesteps 
 
+        print("Sampling type: ", sampleType, "sample_steps: ", self.sample_steps)
+        
         loop_dict = {"PPN": self._loop_ppn, "DPS": self._loop_dps, 
                      "DDNM": self._loop_ddnm,  "SONG": self._loop_song}
         
@@ -45,7 +41,7 @@ class PPN_Diffusion(SpacedDiffusion):
             x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
             return x_real_pre
 
-        _indices = list(range(50))[::-1]
+        _indices = list(range(self.sample_steps))[::-1]
         # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
         Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
@@ -57,7 +53,7 @@ class PPN_Diffusion(SpacedDiffusion):
     
     @th.no_grad()
     def _loop_ddnm(self, model, denoise_fn, progress=False, device="cpu"):
-        _indices = list(range(50))[::-1]
+        _indices = list(range(self.sample_steps))[::-1]
         # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
         Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
@@ -69,7 +65,7 @@ class PPN_Diffusion(SpacedDiffusion):
     
     @th.no_grad()
     def _loop_song(self, model, denoise_fn, progress=False, device="cpu"):
-        _indices = list(range(50))[::-1]
+        _indices = list(range(self.sample_steps))[::-1]
         # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
         Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
@@ -81,7 +77,7 @@ class PPN_Diffusion(SpacedDiffusion):
     
 
     def _loop_dps(self, model, progress=False, device="cpu"):
-        _indices = list(range(self.num_timesteps))[::-1]
+        _indices = list(range(self.sample_steps))[::-1]
         indices = tqdm(_indices) if progress else _indices
         x = th.randn_like(self.knowns.real, device=device)
         for i in indices:

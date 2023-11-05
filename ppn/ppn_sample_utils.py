@@ -49,12 +49,12 @@ def report_metrics_and_save(args, testset, samples, sens):
 
     rmse = np.array([rmse_fn(smp[None, ...], tgt[None, ...]) for tgt, smp in zip(testset.numpy(), samples.numpy())])
 
-    report = "samples#%d_x%d_step%d_psnr_%.4f_%.4f_ssim_%.4f_%.4f_rmse_%.4f_%.4f"%(
+    report = "samples#%d_x%d_step%s_psnr_%.4f_%.4f_ssim_%.4f_%.4f_rmse_%.4f_%.4f"%(
         args.num_samples, args.acceleration, args.num_timesteps,
         psnr.mean(), psnr.std(), ssim.mean(), ssim.std(), rmse.mean(), rmse.std())
     logger.log("report1: ", report)
 
-    report = "samples#%d_x%d_step%d_psnr_%.4f_%.4f_ssim_%.4f_%.4f_rmse_%.4f_%.4f"%(
+    report = "samples#%d_x%d_step%s_psnr_%.4f_%.4f_ssim_%.4f_%.4f_rmse_%.4f_%.4f"%(
         args.num_samples, args.acceleration, args.num_timesteps,
         psnr2.mean(), psnr2.std(), ssim2.mean(), ssim2.std(), rmse.mean(), rmse.std())
     logger.log("report2: ", report)

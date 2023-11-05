@@ -40,11 +40,6 @@ def main():
     device = dist_util.dev()
     args = create_argparser().parse_args()
 
-    mixpercent=0
-    if args.sampleType.startswith("multicoil"):
-        args.mcType = args.sampleType.split("_")[1]
-        args.sampleType="multicoil"
-
     assert args.sampleType in ['PPN', 'DPS', "DDNM", "SONG"], "Sample type is not correct"
 
     dist_util.setup_dist()
@@ -53,22 +48,28 @@ def main():
     logger.log("creating model and diffusion...")
     model, diffusion = load_model(args, device)
 
+    if args.sampleType != "PPN":
+        args.num_timesteps=diffusion.num_timesteps
+
     logger.log("sampling...")
     all_samples = []
     all_imgs, all_knowns, all_sens, isComplex, mask = ppn_sample_utils.get_testset_and_mask(args)
-    ppn_loop = partial(diffusion.run, model=model, isComplex=isComplex, mask=mask, device=device, 
-                       sampleType=args.sampleType, mcType=args.mcType, progress=args.show_progress, mixpercent=mixpercent)
-
+    ppn_loop = partial(diffusion.run, model=model, mask=mask, device=device, sample_steps=args.num_timesteps, 
+                       sampleType=args.sampleType, progress=args.show_progress)
+    
     for knowns, sens in ppn_sample_utils.iter_testset(args, all_knowns, all_sens):
-        sample = ppn_loop(knowns, sens)
+        sample = ppn_loop(knowns)
         all_samples.extend([sample.cpu()])
 
     logger.log("sampling complete")
     all_samples = th.cat(all_samples, dim=0)  #np.concatenate(all_samples, axis=0)
     
     logger.log_snapshot(try_rss_complex(all_samples))
-    args.num_timesteps = diffusion.num_timesteps
-
+    # used for display
+    if args.sampleType == "PPN":
+        args.num_timesteps = "%d_%d" % (args.num_timesteps, diffusion.num_timesteps)
+    else:
+        args.num_timesteps = "%d" % (args.num_timesteps)
     ppn_sample_utils.report_metrics_and_save(args, all_imgs, all_samples, all_sens) # psnr and ssim
 
 
@@ -85,8 +86,8 @@ def create_argparser():
         acceleration=4,
         show_progress=False,
         num_timesteps=0,
-        sampleType="PPN", # PPN, DDIM, DDPM
-        mcType="a", # multi-coil type 
+        sampleType="PPN", # PPN, DPS, DDNM, SONG
+        # mcType="a", # multi-coil type 
         sensmap_path=""
     )
     defaults.update(model_and_diffusion_defaults())
