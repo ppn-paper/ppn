@@ -76,31 +76,25 @@ class PPN_Diffusion(SpacedDiffusion):
     
     @th.no_grad()
     def _loop_song(self, model, progress=False, device="cpu"):
-        def projector(x_real, t=0,lmd=1.0):
-            x_space = to_space(x_real)
-            x_space = merge_known_with_mask(x_space, self.knowns, self.mask, coeff=lmd)
-            return from_space(x_space).real
-
-        def song(model, x_real, t): # 0: x_0, 1: x_t
-            ts = th.tensor([t]  * x_real.shape[0], device=x_real.device)
-            x_0 = self.p_mean_variance(model, x_real, ts)["pred_xstart"] # predictor
-            x_0_hat = projector(x_0, t)
-            
-            # ppn
-            alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_real.shape)
-            x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
-            return x_real_pre
         
         _indices = list(range(self.sample_steps))[::-1]
-        # _indices = list(range(self.num_timesteps))[::-1]
         indices = tqdm(_indices) if progress else _indices
         Ts = th.tensor([_indices[0]]  * self.knowns.shape[0], device=self.knowns.device)
-        x = self.q_sample(from_space(self.knowns).real, Ts) 
-        # x = th.randn_like(self.knowns.real, device=device)
+        x = th.randn_like(self.knowns.real, device=device)
         for i in indices:  
-            x = song(model, x, i) 
+            ts = th.tensor([i]  * x.shape[0], device=x.device)
+            
+            a = _extract_into_tensor(self.sqrt_alphas_cumprod, ts, x.shape)
+            b = _extract_into_tensor(self.sqrt_one_minus_alphas_cumprod, ts, x.shape)
+            known_noisy = a*self.knowns + b*to_space(th.randn_like(x))
+
+            # projection at x_t
+            x = from_space(self.mask*known_noisy+(1-self.mask)*to_space(x)).real
+            
+            out = self.p_sample(model, x, ts) #self.ddim_sample(model, x, ts)
+            x = out['sample']
         return x
-    
+
 
     def _loop_dps(self, model, progress=False, device="cpu"):
         _indices = list(range(self.sample_steps))[::-1]

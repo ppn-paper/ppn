@@ -21,7 +21,7 @@
             "module": "scripts.image_sample",
             "justMyCode": true,
             "args": [
-                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "4", "--batch_size", "32", "--timestep_respacing", "ddim1000", "--num_timesteps", "50", "--acceleration", "4", "--show_progress", "True", "--sampleType", "DDNM"
+                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "4", "--batch_size", "32", "--timestep_respacing", "ddim200", "--num_timesteps", "-1", "--acceleration", "4", "--show_progress", "True", "--sampleType", "DDNM"
             ]
         },
         {
@@ -31,7 +31,7 @@
             "module": "scripts.image_sample",
             "justMyCode": true,
             "args": [
-                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "4", "--batch_size", "32", "--timestep_respacing", "ddim1000", "--num_timesteps", "50", "--acceleration", "4", "--show_progress", "True", "--sampleType", "SONG"
+                "--work_dir", "working/sampling", "--model_path", "evaluations/BraTS/model_2.02m.pt", "--testset_path", "evaluations/BraTS/BraTS.npz", "--attention_resolutions", "30", "--class_cond", "False", "--learn_sigma", "True", "--noise_schedule", "cosine", "--image_size", "240", "--num_channels", "32", "--num_res_blocks", "3", "--channel_mult", "1,2,2,4,4", "--use_ddim", "True", "--num_samples", "4", "--batch_size", "32", "--timestep_respacing", "ddim1000", "--num_timesteps", "-1", "--acceleration", "4", "--show_progress", "True", "--sampleType", "SONG"
             ]
         },
         {
