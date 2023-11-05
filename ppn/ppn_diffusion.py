@@ -160,10 +160,10 @@ class PPN_Diffusion(SpacedDiffusion):
 
 
         # ppn
-        # alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_real.shape)
-        # x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
+        alpha_bar_prev = _extract_into_tensor(self.alphas_cumprod_prev, ts, x_real.shape)
+        x_real_pre = th.sqrt(alpha_bar_prev) * x_0_hat  + th.sqrt(1-alpha_bar_prev) * th.rand_like(x_0_hat)
 
-        x_real_pre = self.noisor(x_0_hat, ts, x_0)
+        # x_real_pre = self.noisor(x_0_hat, ts, x_0)
 
         
         return x_real_pre

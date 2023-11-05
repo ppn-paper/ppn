@@ -23,9 +23,11 @@ def report_metrics_and_save(args, testset, samples, sens):
     samples = try_rss_complex(samples)
 
     # TODO normalization is not correct for multicoil
-    mm = 1.0 #np.max([1., testset.max(), samples.max()])  #TODO check whether this is valid????
-    mask = np.ones(testset.shape) # testset>0
-    # mask = (testset>0)
+    mm = np.max([1., testset.max(), samples.max()])  #TODO check whether this is valid????
+    
+    print("== max ==>>>", mm)
+    # mask = np.ones(testset.shape) # testset>0
+    mask = (testset>0)
     testset = th.clamp(testset, 0., mm) * mask
     samples = th.clamp(samples, 0., mm) * mask
     

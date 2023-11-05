@@ -51,9 +51,9 @@ The result is based on a test set containing 64 samples.
 
 | Acceleration          | PNSR  | SSIM |
 |------------------|------|-----------|
-| x4   | $39.67\pm 1.00$ | $0.949\pm 0.010$      |
-| x8 | $36.02\pm 1.57$ | $0.915\pm 0.016$      |
-| x16   | $28.25\pm 4.92$ | $0.760\pm 0.115$      |
+| x4   | $36.69\pm 2.51$ | $0.895\pm 0.046$       |
+| x8 | $32.65\pm 2.98$ | $0.835\pm 0.072$      |
+| x16   | $26.76\pm 4.12$ | $0.707\pm 0.114$      |
 
 
 ### 1.3. Results from fastMRI Brain
