@@ -161,7 +161,7 @@ cython_debug/
 
 
 # datasets/
-evaluations/
+evaluations/fastMRI_*
 working
 ii.png
 datasets/*.tar
