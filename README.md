@@ -6,9 +6,9 @@ This repository is based on [openai/improved-diffusion](https://github.com/opena
 
 # Download pre-trained models   
 
-We have released checkpoints for the main models in the paper. Here are the download links for each model checkpoint:
+We have released checkpoints for the main models in the paper. Here are the download links for each model checkpoint and related test data:
 
- <!-- * 64x64 classifier: [64x64_classifier.pt](https://openaipublic.blob.core.windows.net/diffusion/jul-2021/64x64_classifier.pt) -->
+https://drive.google.com/drive/folders/1kCKPE22m04tuhN_gFrm6LdW2QLHNvhpj?usp=sharing
  
 
 # Sampling from pre-trained models
