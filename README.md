@@ -9,15 +9,27 @@ This repository is based on [openai/improved-diffusion](https://github.com/opena
 We have released checkpoints for the main models in the paper. Here are the download links for each model checkpoint and related test data:
 
 https://drive.google.com/drive/folders/1kCKPE22m04tuhN_gFrm6LdW2QLHNvhpj?usp=sharing
- 
+
 
 # Sampling from pre-trained models
 
-The sampling command for BraTS is :
+The sampling command, adapted from [openai/improved-diffusion](https://github.com/openai/improved-diffusion), is as follows:
 
-```python -m scripts.image_sample --work_dir working/sampling --model_path evaluations/BraTS/ema_0.9999_600000.pt --testset_path evaluations/BraTS/brats_test.npz --attention_resolutions 30 --class_cond False --learn_sigma True --noise_schedule cosine --image_size 240 --num_channels 32 --num_res_blocks 3 --channel_mult 1,2,2,4,4 --use_ddim True --num_samples 64 --batch_size 32 --timestep_respacing ddim1000 --num_timesteps 50 --acceleration 8 --show_progress True --sampleType PPN```
+```python -m scripts.image_sample --work_dir working/sampling --model_path evaluations/BraTS/ema_0.9999_600000.pt --testset_path evaluations/BraTS/brats_test.npz --attention_resolutions 30 --class_cond False --learn_sigma True --noise_schedule cosine --image_size 240 --num_channels 32 --num_res_blocks 3 --channel_mult 1,2,2,4,4 --use_ddim True --num_samples 1000 --batch_size 16 --show_progress True --timestep_respacing ddim1000 --num_timesteps 50 --acceleration 8 --sampleType PPN  ```
 
-This command calculates PSNR and SSIM using 64 samples with a batch size of 32. The acceleration factor for the mask is set to 8, and the sample type here is `PPN`. This can be replaced with `DDNM`, `DPS`, or `SONG`, correlating to the `MedScore` method mentioned in the paper. For `PPN`, we utilize the final 50 steps out of 1,000, hence we specify `--timestep_respacing ddim1000 --num_timesteps 50`. Other methods follow the DDIM style for step settings, using only `--timestep_respacing`; for instance, `--timestep_respacing ddim50` implies using 50 DDIM steps. Note that `--num_timesteps` is applicable only for `PPN` and is disregarded by other methods.
+
+This command computes PSNR and SSIM using 1,000 samples and a batch size of 16 (`--num_samples 1000 --batch_size 16`, you may reduce these values for environmental setup). The acceleration factor for the mask is set to 8 (`--acceleration 8`), and the sample type here is `PPN`. This can be replaced with `DDNM`, `DPS`, or `SONG`, correlating to the `MedScore` method mentioned in the paper. For `PPN`, we utilize the final 50 steps out of 1,000, hence we specify `--timestep_respacing ddim1000 --num_timesteps 50`. Other methods follow the DDIM style for step settings, using only `--timestep_respacing`; for instance, `--timestep_respacing ddim50` implies using 50 DDIM steps. Note that `--num_timesteps` is applicable only for `PPN` and is disregarded by other methods.
+
+Sampling command for FastMRI Brain is :
+
+```python -m scripts.image_sample --work_dir working/sampling --model_path evaluations/fastMRI_brain/ema_0.9999_340000.pt --testset_path evaluations/fastMRI_brain/brain_real_testset.npz --attention_resolutions 40,20 --diffusion_steps 1000 --class_cond False --learn_sigma True --noise_schedule cosine --image_size 320 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 False --channel_mult 1,2,4,4,6,6 --use_ddim True --num_samples 1000 --batch_size 16 --timestep_respacing ddim1000 --num_timesteps 50 --acceleration 8 --use_scale_shift_norm True --dropout 0.0 --show_progress True --sampleType PPN```
+
+Sampling command for FastMRI Knee is :
+
+```python -m scripts.image_sample --work_dir working/sampling --model_path evaluations/fastMRI_Knee/ema_0.9999_2400000.pt --testset_path evaluations/fastMRI_Knee/knee_real_testset.npz --attention_resolutions 40,20 --diffusion_steps 1000 --class_cond False --learn_sigma True --noise_schedule cosine --image_size 320 --num_channels 32 --num_heads 4 --num_res_blocks 3 --resblock_updown True --use_fp16 True --channel_mult 1,2,4,4,6,6 --use_ddim True --num_samples 1000 --batch_size 16 --timestep_respacing ddim1000 --num_timesteps 50 --acceleration 8 --use_scale_shift_norm True --dropout 0.0 --show_progress True --sampleType PPN```
+
+
+
 
 
 # Results
@@ -41,7 +53,7 @@ The result is based on a test set containing 1,000 samples by sampling from last
 
 
 # Training models
-please see the file `.vscode/settings.json`
+please see the file `.vscode/launch.json`
 
 <!-- Training diffusion models is described in the [parent repository](https://github.com/openai/improved-diffusion). Training a classifier is similar. We assume you have put training hyperparameters into a `TRAIN_FLAGS` variable, and classifier hyperparameters into a `CLASSIFIER_FLAGS` variable. Then you can run:
 
