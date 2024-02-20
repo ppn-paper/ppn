@@ -4,6 +4,21 @@ This is the codebase for [Fast Controllable Diffusion Models for Undersampled MR
 
 This repository is based on [openai/improved-diffusion](https://github.com/openai/improved-diffusion).
 
+# Requirements  
+
+If you need to reuse your existing `conda` environment, you can install the required packages as follows:
+
+`pip install -r requirements.txt`
+
+If you wish to create a new `conda` environment, you can execute the following command:
+
+`conda env create -f environment.yml -n ppn`
+
+This will create an environment named "ppn", and you can activate your environment with the command:
+
+`conda activate edm`
+
+
 # Download pre-trained models   
 
 We have released checkpoints and test sets for the main models in the paper, and BraTS is already included in this repository. Here are the complete download links for each model checkpoint and the associated test data:
@@ -54,10 +69,20 @@ The result is based on a test set containing 1,000 samples by sampling from last
 | x12   | $29.07\pm 3.46$ | $0.902\pm 0.033$      |
 
 
+# Citation
+
+```
+@article{jiang2023fast,
+  title={Fast Controllable Diffusion Models for Undersampled MRI Reconstruction},
+  author={Jiang, Wei and Xiong, Zhuang and Liu, Feng and Ye, Nan and Sun, Hongfu},
+  journal={arXiv preprint arXiv:2311.12078},
+  year={2023}
+}
+```
 
 
-# Training models
-please see the file `.vscode/launch.json`
+<!-- # Training models
+please see the file `.vscode/launch.json` -->
 
 <!-- Training diffusion models is described in the [parent repository](https://github.com/openai/improved-diffusion). Training a classifier is similar. We assume you have put training hyperparameters into a `TRAIN_FLAGS` variable, and classifier hyperparameters into a `CLASSIFIER_FLAGS` variable. Then you can run:
 

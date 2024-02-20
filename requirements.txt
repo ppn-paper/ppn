@@ -1,0 +1,14 @@
+# Python version: 3.10
+# Environment name: ppn
+numpy
+matplotlib
+torch
+torchvision
+tensorboard
+scikit-image
+blobfile
+einops
+nibabel
+piq
+sigpy
+
