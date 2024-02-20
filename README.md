@@ -16,7 +16,7 @@ If you wish to create a new `conda` environment, you can execute the following c
 
 This will create an environment named "ppn", and you can activate your environment with the command:
 
-`conda activate edm`
+`conda activate ppn`
 
 
 # Download pre-trained models   
